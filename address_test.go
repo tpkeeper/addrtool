@@ -1,11 +1,15 @@
 package addrtool
 
-import "testing"
+import (
+	"encoding/hex"
+	"testing"
+)
 
 func TestSeedToAddr(t *testing.T) {
 	seed:="c07f1b752c7af8abc94740bf9467cde0057165895467fa83062fa78caef60aca"
 	//seed:="00a84c51041d49acca66e6160c1fa999"
-	t.Log(SeedToAddr(seed,hcTestNetParams))
+	hexByte, _ := hex.DecodeString(seed)
+	t.Log(SeedToAddr(hexByte,hcTestNetParams))
 
 }
 var hcTestNetParams=&NetWorkParams{

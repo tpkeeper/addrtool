@@ -1,15 +1,13 @@
 package addrtool
 
 import (
-	"encoding/hex"
 	"github.com/decred/base58"
 	"github.com/decred/dcrd/dcrutil/v2"
 	"github.com/decred/dcrd/hdkeychain/v2"
 )
 
-func SeedToAddr(seed string,nwp *NetWorkParams)(string,error) {
-	hexByte, err := hex.DecodeString(seed)
-	masterNode, err := hdkeychain.NewMaster(hexByte, nwp)
+func SeedToAddr(seed []byte,nwp *NetWorkParams)(string,error) {
+	masterNode, err := hdkeychain.NewMaster(seed, nwp)
 	purpose, err := masterNode.Child(44 + hdkeychain.HardenedKeyStart)
 	if err != nil {
 		return "",err
