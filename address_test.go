@@ -6,12 +6,18 @@ import (
 )
 
 func TestSeedToAddr(t *testing.T) {
+	debug=true
 	//seed:="c07f1b752c7af8abc94740bf9467cde0057165895467fa83062fa78caef60aca"
 	//seed:="6b81b8ca17c98397ae843899854e89a3958e492db740469e6759bdc3845d7289"
 	seed:="a5957d6e848f94dd1da8806e432aac9ebe836eb36d689eab828593359e93a6ab"
 	//seed:="00a84c51041d49acca66e6160c1fa999"
 	hexByte, _ := hex.DecodeString(seed)
-	t.Log(SeedToAddr(hexByte,hcMainNetParams))
+
+	addr,err:=SeedToAddr(hexByte,hcMainNetParams,45,0,0,0)
+	if err!=nil{
+		t.Error(err)
+	}
+	t.Log(addr)
 
 
 }
