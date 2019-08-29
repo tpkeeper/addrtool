@@ -1,6 +1,7 @@
 package addrtool
 
 import (
+	"encoding/hex"
 	"fmt"
 	"github.com/decred/base58"
 	"github.com/decred/dcrd/dcrutil/v2"
@@ -24,7 +25,7 @@ func SeedToAddr(seed []byte, nwp *NetWorkParams, purpose uint32, account uint32,
 		return "", err
 	}
 
-	PrintPubkey(purposeNode,"purpose")
+	PrintPubNode(purposeNode,"purpose")
 
 	// Derive the coin type key as a child of the purpose key.
 	coinTypeNode, err := purposeNode.Child(nwp.HDCoinType + hdkeychain.HardenedKeyStart)
@@ -32,19 +33,19 @@ func SeedToAddr(seed []byte, nwp *NetWorkParams, purpose uint32, account uint32,
 		return "", err
 	}
 
-	PrintPubkey(coinTypeNode,"coinType")
+	PrintPubNode(coinTypeNode,"coinType")
 
 	accountNode, err := coinTypeNode.Child(account + hdkeychain.HardenedKeyStart)
 
-	PrintPubkey(accountNode,"account")
+	PrintPubNode(accountNode,"account")
 
 	changeNode, err := accountNode.Child(change)
 
-	PrintPubkey(changeNode,"change")
+	PrintPubNode(changeNode,"change")
 
 	indexNode, err := changeNode.Child(index)
 
-	PrintPubkey(indexNode,"index")
+	PrintPubNode(indexNode,"index")
 
 	pubKey, err := indexNode.ECPubKey()
 	hash160Byte := dcrutil.Hash160(pubKey.SerializeCompressed())
@@ -53,7 +54,38 @@ func SeedToAddr(seed []byte, nwp *NetWorkParams, purpose uint32, account uint32,
 	return address, nil
 }
 
-func PrintPubkey(key *hdkeychain.ExtendedKey,layer string) {
+//get serialized ecc pubkey or children serialized ecc pubkey from a base58-encoded extended key
+func PubkeyFromNode(str string,nwp *NetWorkParams,isCompress bool, children ... uint32)(string,error)  {
+	node,err:=hdkeychain.NewKeyFromString(str,nwp)
+	if err!=nil{
+		return "",err
+	}
+
+	for _,child:=range children {
+		node,err = node.Child(child)
+		if err!=nil{
+			return "",err
+		}
+	}
+
+	pubkey,err:=node.ECPubKey()
+	if err!=nil{
+		return "",err
+	}
+
+	var serializedBytes []byte
+	if isCompress{
+		serializedBytes =pubkey.SerializeCompressed()
+	}else {
+		serializedBytes = pubkey.SerializeUncompressed()
+	}
+
+	return hex.EncodeToString(serializedBytes),nil
+}
+
+
+
+func PrintPubNode(key *hdkeychain.ExtendedKey,layer string) {
 	if debug {
 		pub, _ := key.Neuter()
 		fmt.Printf("%s   \t: %v\n",layer,pub)
