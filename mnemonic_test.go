@@ -2,6 +2,7 @@ package addrtool
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"github.com/tyler-smith/go-bip39"
 	"testing"
@@ -16,8 +17,16 @@ func TestMnemonicToAddr(t *testing.T) {
 	t.Log(addr)
 }
 
+func TestMnemonicToSeed(t *testing.T) {
+	Mnemonic:="hunt toward echo expire local mystery robust success digital advice erase tail"
+	//"cdd0493c7fd1bcd72ac9814db5218a7585b40a66968580846f7b983688b050e8"
+	bts,_:=bip39.MnemonicToByteArray(Mnemonic,false)
+	fmt.Println(hex.EncodeToString(bts))
+}
 
-func mnemonicTest() {
+
+
+func TestMnemonic(t *testing.T) {
 	pwd := "123"
 	inputMnemonic := "tone canoe toward edge voyage reveal large ignore enough draft worry erosion"
 	fmt.Println("密码", pwd)
@@ -44,4 +53,15 @@ func mnemonicTest() {
 	mnemonicPlain, _ := bip39.NewMnemonic(plainByte)
 	fmt.Println("恢复的原始助记词", mnemonicPlain)
 	//fmt.Println(len(plainByte),EncodeMnemonic(plainByte))
+
+	for i:=0;i<2047;i++{
+		for j:=i+1;j<2048;j++  {
+			if len(wordList[i])>=4&&len(wordList[j])>=4{
+
+			if string(wordList[i][:4])==string(wordList[j][:4]){
+				print(i,j,wordList[i])
+			}
+			}
+		}
+	}
 }

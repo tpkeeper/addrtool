@@ -4,6 +4,7 @@ import (
 	"github.com/decred/base58"
 	"github.com/decred/dcrd/dcrutil/v2"
 	"github.com/decred/dcrd/hdkeychain/v2"
+	"github.com/tyler-smith/go-bip39"
 )
 
 func SeedToAddr(seed []byte,nwp *NetWorkParams)(string,error) {
@@ -33,6 +34,15 @@ func SeedToAddr(seed []byte,nwp *NetWorkParams)(string,error) {
 	address := base58.CheckEncode(hash160Byte, nwp.PubKeyHashAddrID)
 	return address,nil
 }
+func MnemonicToAddr(words string,nwp *NetWorkParams)(string,error)  {
+	seed, err := bip39.MnemonicToByteArray(words, true)
+	if err!=nil{
+		return "",err
+	}
+	return SeedToAddr(seed,nwp)
+}
+
+
 type NetWorkParams struct {
 	HDPrivateKeyID [4]byte
 	HDPublicKeyID [4]byte

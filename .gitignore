@@ -1,0 +1,8 @@
+vendor
+*~
+*.pyc
+*.sw?
+*.orig
+*.diff
+*.sw?
+.idea/
