@@ -7,6 +7,8 @@ import (
 	"github.com/decred/dcrd/dcrutil/v2"
 	"github.com/decred/dcrd/hdkeychain/v2"
 	"github.com/tyler-smith/go-bip39"
+
+
 )
 
 var debug = false
@@ -24,7 +26,6 @@ func SeedToAddr(seed []byte, nwp *NetWorkParams, purpose uint32, account uint32,
 	if err != nil {
 		return "", err
 	}
-
 	PrintPubNode(purposeNode,"purpose")
 
 	// Derive the coin type key as a child of the purpose key.
