@@ -1,3 +1,5 @@
 # addrtool
-* seedtoaddress
-* mnemonictoaddress
+support multiCoinType
+* generate mnemonic
+* mnemonictoseed(standard bip39)
+* seed to address
