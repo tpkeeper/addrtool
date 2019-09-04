@@ -1,5 +1,5 @@
 # addrtool
 support multiCoinType
 * generate mnemonic
-* mnemonictoseed(standard bip39)
+* mnemonictoseed(include standard bip39 and not standard like dcr)
 * seed to address
