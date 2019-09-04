@@ -22,8 +22,8 @@ func TestSeedToAddr(t *testing.T) {
 
 	pubNode1:="dpubZB3aSKzsQCrtQNiEZdprCTskujNACqXJXAcLRVUCTU4Qwpi8EqgW6kVKygjrTt27wMkuK37v1UsQYzKE1xhrbgqCZdMGw6gBYZVTkSogTDC"
 	pubNode2:="dpubZCRagbXPbBG17kmPaxVjBSody6zu4ChE2ywd7xGfmh2WLbCZJZxbqCH3HL16ytiz91UfDmRbTVBzcgxFAxscqHyh9Hi3AUStcXcA7HV2sBX"
-	pubkeyHex1,err:= PubkeyFromNode(pubNode1,hcMainNetParams,true)
-	pubkeyHex2,err:= PubkeyFromNode(pubNode2,hcMainNetParams,true)
+	pubkeyHex1,err:= PubkeyFromNode(pubNode1,hcMainNetParams,true,0,0,0)
+	pubkeyHex2,err:= PubkeyFromNode(pubNode2,hcMainNetParams,true,1,0,0)
 	t.Log("pubkeyhex1",pubkeyHex1)
 	t.Log("pubkeyhex2",pubkeyHex2)
 
