@@ -1,53 +1,14 @@
 package addrtool
 
 import (
-	"github.com/tyler-smith/go-bip32"
 	"encoding/hex"
 	"testing"
 )
 
-func TestSeedToPubkey(t *testing.T) {
-	seed := "04ef53d66b17fdfb6538c5d183f0b0569fc1c79d07f044f7670c3038aff411e5abcbe8c457b584d0c1e3504ab94fb311f9097a793c20dfc746a87087ed5dc119"
-	hexByte, _ := hex.DecodeString(seed)
-	//m
-	masterExtKey, _ := bip32.NewMasterKey(hexByte)
-	//m/purpose'
-	purposeExtKey,_:=masterExtKey.NewChildKey(bip32.FirstHardenedChild+44)
-	//m/purpose'/cointype'
-	coinTypeExtKey,_:=purposeExtKey.NewChildKey(bip32.FirstHardenedChild+0)
-	//m/purpose'/cointype'/account'
-	accountExtKey,_:=coinTypeExtKey.NewChildKey(bip32.FirstHardenedChild+0)
-	//m/purpose'/cointype'/account'/change
-	changeExtKey,_:=accountExtKey.NewChildKey(0)
-	//m/purpose'/cointype'/account'/change/addrIndex
-	addrIndex0ExtKey,_:=changeExtKey.NewChildKey(0)
-	//pubkey
-	t.Log(hex.EncodeToString(addrIndex0ExtKey.PublicKey().Key))
-}
+func TestPubkeyToAddress(t *testing.T) {
+	hexByte,_:=hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
 
-
-
-func TestSeedToAddr(t *testing.T) {
-	debug = true
-	//seed:="c07f1b752c7af8abc94740bf9467cde0057165895467fa83062fa78caef60aca"
-	//seed:="6b81b8ca17c98397ae843899854e89a3958e492db740469e6759bdc3845d7289"
-	seed := "a5957d6e848f94dd1da8806e432aac9ebe836eb36d689eab828593359e93a6ab"
-	//seed:="00a84c51041d49acca66e6160c1fa999"
-	hexByte, _ := hex.DecodeString(seed)
-
-	addr, err := SeedToAddr(hexByte, hcMainNetParams, 45, 0, 0, 0)
-	if err != nil {
-		t.Error(err)
-	}
-	t.Log(addr)
-
-	pubNode1 := "dpubZB3aSKzsQCrtQNiEZdprCTskujNACqXJXAcLRVUCTU4Qwpi8EqgW6kVKygjrTt27wMkuK37v1UsQYzKE1xhrbgqCZdMGw6gBYZVTkSogTDC"
-	pubNode2 := "dpubZCRagbXPbBG17kmPaxVjBSody6zu4ChE2ywd7xGfmh2WLbCZJZxbqCH3HL16ytiz91UfDmRbTVBzcgxFAxscqHyh9Hi3AUStcXcA7HV2sBX"
-	pubkeyHex1, err := PubkeyFromNode(pubNode1, hcMainNetParams, true, 0, 0, 0)
-	pubkeyHex2, err := PubkeyFromNode(pubNode2, hcMainNetParams, true, 1, 0, 0)
-	t.Log("pubkeyhex1", pubkeyHex1)
-	t.Log("pubkeyhex2", pubkeyHex2)
-
+	t.Log(PubkeyToAddress(hexByte,0))
 }
 
 var hcMainNetParams = &NetWorkParams{

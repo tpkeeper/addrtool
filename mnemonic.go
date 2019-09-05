@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"errors"
+	"github.com/tyler-smith/go-bip39"
 	"strings"
 )
 var wordList = strings.Split(alternatingWords, "\n")
@@ -31,18 +32,8 @@ func DcrSeedToMnemonic(seed []byte) string {
 	return buf.String()
 }
 
-
-func checksumByte(data []byte) byte {
-	intermediateHash := sha256.Sum256(data)
-	return sha256.Sum256(intermediateHash[:])[0]
-}
-// byteToMnemonic returns the PGP word list encoding of b when found at index.
-func byteToMnemonic(b byte, index int) string {
-	bb := uint16(b) * 2
-	if index%2 != 0 {
-		bb++
-	}
-	return wordList[bb]
+func Bip39MnemonicToSeed(mnemonic string, password string)[]byte  {
+	return bip39.NewSeed(mnemonic,password)
 }
 
 // DecodeMnemonics returns the decoded value that is encoded by words.  Any
@@ -67,4 +58,18 @@ func DcrMnemonicToSeed(words []string) ([]byte, error) {
 	}
 	return decoded[:idx], nil
 }
+
+func checksumByte(data []byte) byte {
+	intermediateHash := sha256.Sum256(data)
+	return sha256.Sum256(intermediateHash[:])[0]
+}
+// byteToMnemonic returns the PGP word list encoding of b when found at index.
+func byteToMnemonic(b byte, index int) string {
+	bb := uint16(b) * 2
+	if index%2 != 0 {
+		bb++
+	}
+	return wordList[bb]
+}
+
 
