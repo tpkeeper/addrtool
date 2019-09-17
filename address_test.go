@@ -16,7 +16,10 @@ func TestMultiPubkeyToAddress(t *testing.T) {
 	t.Log(MultiPubkeyToAddress(5,1,hexByte,hexByte))
 }
 
-
+func TestDcrPubkeyToAddress(t *testing.T) {
+	hexByte,_:=hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
+	t.Log(DcrPubkeyToAddress(hexByte,hcMainNetParams.PubKeyHashAddrID))
+}
 
 var hcMainNetParams = &NetWorkParams{
 	PubKeyAddrID:     [2]byte{0x19, 0xa4}, // starts with Hk
