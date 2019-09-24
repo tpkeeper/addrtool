@@ -1,6 +1,6 @@
 # addrtool
 
 * generate mnemonic
-* mnemonic to seed(include standard bip39 and not standard like dcr)
+* mnemonic to seed (include standard bip39 and not standard like decred)
 * seed to pubkey
-* pubkey to address
+* pubkey to address (support decred)
