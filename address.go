@@ -6,6 +6,7 @@ import (
 	"github.com/btcsuite/btcutil/base58"
 	"golang.org/x/crypto/ripemd160"
 	dcrbase58 "github.com/decred/base58"
+	"github.com/decred/dcrd/dcrutil"
 )
 
 func PubkeyToAddress(key []byte,netId byte)(string){
@@ -13,7 +14,8 @@ func PubkeyToAddress(key []byte,netId byte)(string){
 	return base58.CheckEncode(hash160Bytes[:ripemd160.Size],netId)
 }
 func DcrPubkeyToAddress(key []byte,netId [2]byte)(string){
-	hash160Bytes:=btcutil.Hash160(key)
+	//dcr的hash160与btc的不同
+	hash160Bytes:=dcrutil.Hash160(key)
 	return dcrbase58.CheckEncode(hash160Bytes[:ripemd160.Size],netId)
 }
 

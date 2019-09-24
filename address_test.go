@@ -17,8 +17,10 @@ func TestMultiPubkeyToAddress(t *testing.T) {
 }
 
 func TestDcrPubkeyToAddress(t *testing.T) {
-	hexByte,_:=hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
-	t.Log(DcrPubkeyToAddress(hexByte,hcMainNetParams.PubKeyHashAddrID))
+	//hexByte,_:=hex.DecodeString("026fc0084f3af4509b1b744be9a0b912b2889601e7e858d2305dfeae2dae585cbb")
+	hexByte,_:=hex.DecodeString("02b1ad2bc0a9d189c4c644ac2668d62b2b6147cea7858b894987b4689489186d6b")
+	t.Log(DcrPubkeyToAddress(hexByte,hcTestNetParams.PubKeyHashAddrID))
+
 }
 
 var hcMainNetParams = &NetWorkParams{
@@ -41,10 +43,10 @@ var hcTestNetParams = &NetWorkParams{
 	HDPublicKeyID:  [4]byte{0x04, 0x35, 0x87, 0xd1}, // starts with tpub
 
 	PubKeyAddrID:     [2]byte{0x28, 0xf7}, // starts with Tk
-	PubKeyHashAddrID: [2]byte{0x0e, 0xc0}, // starts with TC
+	PubKeyHashAddrID: [2]byte{0x0f, 0x21}, // starts with Ts
 	PKHEdwardsAddrID: [2]byte{0x0f, 0x01}, // starts with Te
-	PKHSchnorrAddrID: [2]byte{0x0f, 0x20}, // starts with Ts
-	ScriptHashAddrID: [2]byte{0x0f, 0x12}, // starts with Tm
+	PKHSchnorrAddrID: [2]byte{0x0e, 0xe3}, // starts with Ts
+	ScriptHashAddrID: [2]byte{0x0e, 0xfc}, // starts with Tm
 	PrivateKeyID:     [2]byte{0x23, 0x0e}, // starts with Pt
 
 	HDCoinType: uint32(171),
