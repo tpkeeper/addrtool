@@ -9,46 +9,44 @@ import (
 	"github.com/decred/dcrd/dcrutil"
 )
 
-func PubkeyToAddress(key []byte,netId byte)(string){
-	hash160Bytes:=btcutil.Hash160(key)
-	return base58.CheckEncode(hash160Bytes[:ripemd160.Size],netId)
+func PubkeyToAddress(key []byte, netId byte) (string) {
+	hash160Bytes := btcutil.Hash160(key)
+	return base58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
 }
-func DcrPubkeyToAddress(key []byte,netId [2]byte)(string){
+func DcrPubkeyToAddress(key []byte, netId [2]byte) (string) {
 	//dcr的hash160与btc的不同
-	hash160Bytes:=dcrutil.Hash160(key)
-	return dcrbase58.CheckEncode(hash160Bytes[:ripemd160.Size],netId)
+	hash160Bytes := dcrutil.Hash160(key)
+	return dcrbase58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
 }
 
-
-func MultiPubkeyToAddress(netId byte,nRequired int,keys ... []byte) (string ,error){
-	builder:=txscript.NewScriptBuilder().AddInt64(int64(nRequired))
-	for _,key:=range keys{
+func MultiPubkeyToAddress(netId byte, nRequired int, keys ... []byte) (string, error) {
+	builder := txscript.NewScriptBuilder().AddInt64(int64(nRequired))
+	for _, key := range keys {
 		builder.AddData(key)
 	}
 	builder.AddInt64(int64(len(keys)))
 	builder.AddOp(txscript.OP_CHECKMULTISIG)
-	script,err:=builder.Script()
-	if err!=nil{
-		return "",err
+	script, err := builder.Script()
+	if err != nil {
+		return "", err
 	}
 	scriptHash := btcutil.Hash160(script)
-	return base58.CheckEncode(scriptHash[:ripemd160.Size], netId),nil
+	return base58.CheckEncode(scriptHash[:ripemd160.Size], netId), nil
 }
 
-
-func DcrMultiPubkeyToAddress(netId [2]byte,nRequired int,keys [][]byte) (string ,error){
-	builder:=txscript.NewScriptBuilder().AddInt64(int64(nRequired))
-	for _,key:=range keys{
+func DcrMultiPubkeyToAddress(netId [2]byte, nRequired int, keys [][]byte) (string, error) {
+	builder := txscript.NewScriptBuilder().AddInt64(int64(nRequired))
+	for _, key := range keys {
 		builder.AddData(key)
 	}
 	builder.AddInt64(int64(len(keys)))
 	builder.AddOp(txscript.OP_CHECKMULTISIG)
-	script,err:=builder.Script()
-	if err!=nil{
-		return "",err
+	script, err := builder.Script()
+	if err != nil {
+		return "", err
 	}
 	scriptHash := btcutil.Hash160(script)
-	return dcrbase58.CheckEncode(scriptHash[:ripemd160.Size], netId),nil
+	return dcrbase58.CheckEncode(scriptHash[:ripemd160.Size], netId), nil
 }
 
 type NetWorkParams struct {

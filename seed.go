@@ -10,60 +10,58 @@ import "github.com/tyler-smith/go-bip32"
 // The branch is 0 for external addresses and 1 for internal addresses.
 //  m/purpose(44)'/coinType(171)'/account(0)'/change(0)/index(0)
 
-
 //return compressed pubkey
-func SeedToPubKey(seed []byte,purpose uint32, coinType uint32,account uint32, change uint32, index uint32) ([]byte, error) {
+func SeedToPubKey(seed []byte, purpose uint32, coinType uint32, account uint32, change uint32, index uint32) ([]byte, error) {
 	masterExtKey, err := bip32.NewMasterKey(seed)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		return nil, err
 	}
 	//m/purpose'
-	purposeExtKey,err:=masterExtKey.NewChildKey(bip32.FirstHardenedChild+purpose)
-	if err!=nil{
-		return nil,err
+	purposeExtKey, err := masterExtKey.NewChildKey(bip32.FirstHardenedChild + purpose)
+	if err != nil {
+		return nil, err
 	}
 	//m/purpose'/cointype'
-	coinTypeExtKey,err:=purposeExtKey.NewChildKey(bip32.FirstHardenedChild+coinType)
-	if err!=nil{
-		return nil,err
+	coinTypeExtKey, err := purposeExtKey.NewChildKey(bip32.FirstHardenedChild + coinType)
+	if err != nil {
+		return nil, err
 	}
 	//m/purpose'/cointype'/account'
-	accountExtKey,err:=coinTypeExtKey.NewChildKey(bip32.FirstHardenedChild+account)
-	if err!=nil{
-		return nil,err
+	accountExtKey, err := coinTypeExtKey.NewChildKey(bip32.FirstHardenedChild + account)
+	if err != nil {
+		return nil, err
 	}
 	//m/purpose'/cointype'/account'/change
-	changeExtKey,err:=accountExtKey.NewChildKey(change)
-	if err!=nil{
-		return nil,err
+	changeExtKey, err := accountExtKey.NewChildKey(change)
+	if err != nil {
+		return nil, err
 	}
 	//m/purpose'/cointype'/account'/change/addrIndex
-	addrIndex0ExtKey,err:=changeExtKey.NewChildKey(index)
-	if err!=nil{
-		return nil,err
+	addrIndex0ExtKey, err := changeExtKey.NewChildKey(index)
+	if err != nil {
+		return nil, err
 	}
-	return addrIndex0ExtKey.PublicKey().Key,nil
+	return addrIndex0ExtKey.PublicKey().Key, nil
 }
 
-
 //return compressed ecc pubkey or children compressed ecc pubkey from an extended key base58-encoded
-func PubkeyFromExtendKey(extendKeyB58Str string, children ... uint32)([]byte,error)  {
+func PubkeyFromExtendKey(extendKeyB58Str string, children ... uint32) ([]byte, error) {
 
-	extKey,err:=bip32.B58Deserialize(extendKeyB58Str)
+	extKey, err := bip32.B58Deserialize(extendKeyB58Str)
 
 	//node,err:=hdkeychain.NewKeyFromString(extendKeyStr,nwp)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		return nil, err
 	}
 
-	for _,child:=range children {
-		extKey,err = extKey.NewChildKey(child)
-		if err!=nil{
-			return nil,err
+	for _, child := range children {
+		extKey, err = extKey.NewChildKey(child)
+		if err != nil {
+			return nil, err
 		}
 	}
 
-	pubkey:=extKey.PublicKey()
+	pubkey := extKey.PublicKey()
 
-	return pubkey.Key,nil
+	return pubkey.Key, nil
 }

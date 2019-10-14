@@ -6,20 +6,20 @@ import (
 )
 
 func TestPubkeyToAddress(t *testing.T) {
-	hexByte,_:=hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
+	hexByte, _ := hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
 
-	t.Log(PubkeyToAddress(hexByte,0))
+	t.Log(PubkeyToAddress(hexByte, 0))
 }
 
 func TestMultiPubkeyToAddress(t *testing.T) {
-	hexByte,_:=hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
-	t.Log(MultiPubkeyToAddress(5,1,hexByte,hexByte))
+	hexByte, _ := hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
+	t.Log(MultiPubkeyToAddress(5, 1, hexByte, hexByte))
 }
 
 func TestDcrPubkeyToAddress(t *testing.T) {
 	//hexByte,_:=hex.DecodeString("026fc0084f3af4509b1b744be9a0b912b2889601e7e858d2305dfeae2dae585cbb")
-	hexByte,_:=hex.DecodeString("02b1ad2bc0a9d189c4c644ac2668d62b2b6147cea7858b894987b4689489186d6b")
-	t.Log(DcrPubkeyToAddress(hexByte,hcTestNetParams.PubKeyHashAddrID))
+	hexByte, _ := hex.DecodeString("02b1ad2bc0a9d189c4c644ac2668d62b2b6147cea7858b894987b4689489186d6b")
+	t.Log(DcrPubkeyToAddress(hexByte, hcTestNetParams.PubKeyHashAddrID))
 
 }
 

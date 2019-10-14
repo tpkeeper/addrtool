@@ -1,8 +1,5 @@
 package addrtool
 
-
-
-
 const alternatingWords = `aardvark
 adroitness
 absurd
