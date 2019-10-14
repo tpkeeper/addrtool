@@ -1,7 +1,18 @@
 # addrtool
-## feature
+## Feature
 
 * generate mnemonic
-* mnemonic to seed (include standard bip39 and not standard like decred)
+  * [X] bip39
+  * [ ] decred
+
+* mnemonic to seed
+  * [X] bip39
+  * [X] decred
 * seed to pubkey
-* pubkey to address (support decred)
+  * [X] bip32
+  * [X] bip44
+* pubkey to address
+  * [X] btc
+  * [X] decred
+  * [X] hcash
+  * [ ] etherum

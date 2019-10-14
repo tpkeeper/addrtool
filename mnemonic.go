@@ -18,6 +18,17 @@ func init() {
 	}
 }
 
+
+func Bip39GenMnemonic(size int) (string, error) {
+	entropyBytes, err := bip39.NewEntropy(size)
+	if err != nil {
+		return "", err
+	}
+	//生成助记词
+	mnemonic, err := bip39.NewMnemonic(entropyBytes)
+	return mnemonic, err
+}
+
 func Bip39MnemonicToSeed(mnemonic string, password string) ([]byte, error) {
 	if !bip39.IsMnemonicValid(mnemonic) {
 		return nil, errors.New("mnemonic not valid")

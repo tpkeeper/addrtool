@@ -2,17 +2,11 @@ package addrtool
 
 import (
 	"encoding/hex"
-	"github.com/tyler-smith/go-bip39"
 	"testing"
 )
 
 func TestGenMnemonicBip39(t *testing.T) {
-	//生成熵
-	entropyBytes, _ := bip39.NewEntropy(128)
-	t.Log("entropyBytes：", entropyBytes)
-
-	//生成助记词
-	mnemonic, _ := bip39.NewMnemonic(entropyBytes)
+	mnemonic,_:=Bip39GenMnemonic(128)
 	t.Log("mnemonic：", mnemonic)
 }
 
