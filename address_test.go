@@ -6,20 +6,65 @@ import (
 )
 
 func TestPubkeyToAddress(t *testing.T) {
-	hexByte, _ := hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
 
-	t.Log(PubkeyToAddress(hexByte, 0))
+	tests := []struct {
+		name   string
+		netId  byte
+		pubkey string
+		result string
+	}{
+		{
+			name: "pubkeytoaddress",
+			netId:  0,
+			pubkey: "02be17e801d577970bdbe875ab3c7705e049095e377e3273311b7bc6324f4be349",
+			result: "1MCbqnDheNHKtS2eCwgLS9JyTS25HkVZoH"},
+	}
+
+	for _, test := range tests {
+
+		hexByte, err := hex.DecodeString(test.pubkey)
+		if err != nil {
+			t.Errorf("%v: decoding pubkey hex err: %v", test.name, err)
+			return
+		}
+		addr := PubkeyToAddress(hexByte, test.netId)
+		if addr != test.result {
+			t.Errorf("%v: pubkey to address does not match expected value: want %v got %v", test.name, test.result, addr)
+			return
+		}
+
+	}
 }
 
-func TestMultiPubkeyToAddress(t *testing.T) {
-	hexByte, _ := hex.DecodeString("02a57dc3d8b577f4bdf8dbb53e0083d98298342631fcc24033da0f4b8ebcfdf9f1")
-	t.Log(MultiPubkeyToAddress(5, 1, hexByte, hexByte))
-}
 
 func TestDcrPubkeyToAddress(t *testing.T) {
-	//hexByte,_:=hex.DecodeString("026fc0084f3af4509b1b744be9a0b912b2889601e7e858d2305dfeae2dae585cbb")
-	hexByte, _ := hex.DecodeString("02b1ad2bc0a9d189c4c644ac2668d62b2b6147cea7858b894987b4689489186d6b")
-	t.Log(DcrPubkeyToAddress(hexByte, hcTestNetParams.PubKeyHashAddrID))
+	tests := []struct {
+		name   string
+		netId  [2]byte
+		pubkey string
+		result string
+	}{
+		{
+			name: "dcrpubkeytoaddress",
+			netId:  hcTestNetParams.PubKeyHashAddrID,
+			pubkey: "02b1ad2bc0a9d189c4c644ac2668d62b2b6147cea7858b894987b4689489186d6b",
+			result: "TsSmoC9HdBhDhq4ut4TqJY7SBjPqJFAPkGK"},
+	}
+
+	for _, test := range tests {
+
+		hexByte, err := hex.DecodeString(test.pubkey)
+		if err != nil {
+			t.Errorf("%v: decoding pubkey hex err: %v", test.name, err)
+			return
+		}
+		addr := DcrPubkeyToAddress(hexByte, test.netId)
+		if addr != test.result {
+			t.Errorf("%v: pubkey to address does not match expected value: want %v got %v", test.name, test.result, addr)
+			return
+		}
+
+	}
 
 }
 
