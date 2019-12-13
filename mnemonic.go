@@ -35,6 +35,9 @@ func Bip39MnemonicToSeed(mnemonic string, password string) ([]byte, error) {
 	}
 	return bip39.NewSeed(mnemonic, password), nil
 }
+
+
+//dcr 的助记词跟种子的转换可以互逆，没有遵守 bip39 规范
 func DcrSeedToMnemonic(seed []byte) string {
 	var buf bytes.Buffer
 	for i, b := range seed {

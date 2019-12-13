@@ -49,7 +49,7 @@ func DcrMultiPubkeyToAddress(netId [2]byte, nRequired int, keys [][]byte) (strin
 	return dcrbase58.CheckEncode(scriptHash[:ripemd160.Size], netId), nil
 }
 
-type NetWorkParams struct {
+type DcrNetWorkParams struct {
 	HDPrivateKeyID [4]byte
 	HDPublicKeyID  [4]byte
 	HDCoinType     uint32
@@ -61,17 +61,4 @@ type NetWorkParams struct {
 	ScriptHashAddrID [2]byte
 	PrivateKeyID     [2]byte
 
-	Address func() string
-}
-
-// HDPrivKeyVersion returns the hierarchical deterministic extended private key
-// magic version bytes for the network the parameters define.
-func (p *NetWorkParams) HDPrivKeyVersion() [4]byte {
-	return p.HDPrivateKeyID
-}
-
-// HDPubKeyVersion returns the hierarchical deterministic extended public key
-// magic version bytes for the network the parameters define.
-func (p *NetWorkParams) HDPubKeyVersion() [4]byte {
-	return p.HDPublicKeyID
 }

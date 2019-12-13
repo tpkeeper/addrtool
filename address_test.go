@@ -68,7 +68,7 @@ func TestDcrPubkeyToAddress(t *testing.T) {
 
 }
 
-var hcMainNetParams = &NetWorkParams{
+var hcMainNetParams = &DcrNetWorkParams{
 	PubKeyAddrID:     [2]byte{0x19, 0xa4}, // starts with Hk
 	PubKeyHashAddrID: [2]byte{0x09, 0x7f}, // starts with Hs
 	PKHEdwardsAddrID: [2]byte{0x09, 0x60}, // starts with He
@@ -82,7 +82,7 @@ var hcMainNetParams = &NetWorkParams{
 	HDCoinType:     uint32(171),
 }
 
-var hcTestNetParams = &NetWorkParams{
+var hcTestNetParams = &DcrNetWorkParams{
 	// BIP32 hierarchical deterministic extended key magics
 	HDPrivateKeyID: [4]byte{0x04, 0x35, 0x83, 0x97}, // starts with tprv
 	HDPublicKeyID:  [4]byte{0x04, 0x35, 0x87, 0xd1}, // starts with tpub
