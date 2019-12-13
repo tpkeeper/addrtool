@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">addrtool/address.go (16.7%)</option>
+				
+				<option value="file1">addrtool/mnemonic.go (20.5%)</option>
+				
+				<option value="file2">addrtool/seed.go (71.4%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package addrtool
+
+import (
+        "github.com/btcsuite/btcd/txscript"
+        "github.com/btcsuite/btcutil"
+        "github.com/btcsuite/btcutil/base58"
+        "golang.org/x/crypto/ripemd160"
+        dcrbase58 "github.com/decred/base58"
+        "github.com/decred/dcrd/dcrutil"
+)
+
+func PubkeyToAddress(key []byte, netId byte) (string) <span class="cov8" title="1">{
+        hash160Bytes := btcutil.Hash160(key)
+        return base58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
+}</span>
+func DcrPubkeyToAddress(key []byte, netId [2]byte) (string) <span class="cov8" title="1">{
+        //dcr的hash160与btc的不同
+        hash160Bytes := dcrutil.Hash160(key)
+        return dcrbase58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
+}</span>
+
+func MultiPubkeyToAddress(netId byte, nRequired int, keys ... []byte) (string, error) <span class="cov0" title="0">{
+        builder := txscript.NewScriptBuilder().AddInt64(int64(nRequired))
+        for _, key := range keys </span><span class="cov0" title="0">{
+                builder.AddData(key)
+        }</span>
+        <span class="cov0" title="0">builder.AddInt64(int64(len(keys)))
+        builder.AddOp(txscript.OP_CHECKMULTISIG)
+        script, err := builder.Script()
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        <span class="cov0" title="0">scriptHash := btcutil.Hash160(script)
+        return base58.CheckEncode(scriptHash[:ripemd160.Size], netId), nil</span>
+}
+
+func DcrMultiPubkeyToAddress(netId [2]byte, nRequired int, keys [][]byte) (string, error) <span class="cov0" title="0">{
+        builder := txscript.NewScriptBuilder().AddInt64(int64(nRequired))
+        for _, key := range keys </span><span class="cov0" title="0">{
+                builder.AddData(key)
+        }</span>
+        <span class="cov0" title="0">builder.AddInt64(int64(len(keys)))
+        builder.AddOp(txscript.OP_CHECKMULTISIG)
+        script, err := builder.Script()
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        <span class="cov0" title="0">scriptHash := btcutil.Hash160(script)
+        return dcrbase58.CheckEncode(scriptHash[:ripemd160.Size], netId), nil</span>
+}
+
+type DcrNetWorkParams struct {
+        HDPrivateKeyID [4]byte
+        HDPublicKeyID  [4]byte
+        HDCoinType     uint32
+
+        PubKeyAddrID     [2]byte
+        PubKeyHashAddrID [2]byte
+        PKHEdwardsAddrID [2]byte
+        PKHSchnorrAddrID [2]byte
+        ScriptHashAddrID [2]byte
+        PrivateKeyID     [2]byte
+
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package addrtool
+
+import (
+        "bytes"
+        "crypto/sha256"
+        "errors"
+        "github.com/tyler-smith/go-bip39"
+        "strings"
+)
+
+var wordList = strings.Split(alternatingWords, "\n")
+
+var wordIndexes = make(map[string]uint16, len(wordList))
+
+func init() <span class="cov8" title="1">{
+        for i, word := range wordList </span><span class="cov8" title="1">{
+                wordIndexes[strings.ToLower(word)] = uint16(i)
+        }</span>
+}
+
+
+func Bip39GenMnemonic(size int) (string, error) <span class="cov8" title="1">{
+        entropyBytes, err := bip39.NewEntropy(size)
+        if err != nil </span><span class="cov0" title="0">{
+                return "", err
+        }</span>
+        //生成助记词
+        <span class="cov8" title="1">mnemonic, err := bip39.NewMnemonic(entropyBytes)
+        return mnemonic, err</span>
+}
+
+func Bip39MnemonicToSeed(mnemonic string, password string) ([]byte, error) <span class="cov8" title="1">{
+        if !bip39.IsMnemonicValid(mnemonic) </span><span class="cov0" title="0">{
+                return nil, errors.New("mnemonic not valid")
+        }</span>
+        <span class="cov8" title="1">return bip39.NewSeed(mnemonic, password), nil</span>
+}
+
+
+//dcr 的助记词跟种子的转换可以互逆，没有遵守 bip39 规范
+func DcrSeedToMnemonic(seed []byte) string <span class="cov0" title="0">{
+        var buf bytes.Buffer
+        for i, b := range seed </span><span class="cov0" title="0">{
+                if i != 0 </span><span class="cov0" title="0">{
+                        buf.WriteRune(' ')
+                }</span>
+                <span class="cov0" title="0">buf.WriteString(byteToMnemonic(b, i))</span>
+        }
+        <span class="cov0" title="0">checksum := checksumByte(seed)
+        buf.WriteRune(' ')
+        buf.WriteString(byteToMnemonic(checksum, len(seed)))
+        return buf.String()</span>
+}
+
+// DecodeMnemonics returns the decoded value that is encoded by words.  Any
+// words that are whitespace are empty are skipped.
+func DcrMnemonicToSeed(words []string) ([]byte, error) <span class="cov0" title="0">{
+        decoded := make([]byte, len(words))
+        idx := 0
+        for _, w := range words </span><span class="cov0" title="0">{
+                w = strings.TrimSpace(w)
+                if w == "" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+                <span class="cov0" title="0">b, ok := wordIndexes[strings.ToLower(w)]
+                if !ok </span><span class="cov0" title="0">{
+                        return nil, errors.New("word %v is not in the PGP word list")
+                }</span>
+                <span class="cov0" title="0">if int(b%2) != idx%2 </span><span class="cov0" title="0">{
+                        return nil, errors.New("word %v is not valid at position %v, ")
+                }</span>
+                <span class="cov0" title="0">decoded[idx] = byte(b / 2)
+                idx++</span>
+        }
+        <span class="cov0" title="0">return decoded[:idx], nil</span>
+}
+
+func checksumByte(data []byte) byte <span class="cov0" title="0">{
+        intermediateHash := sha256.Sum256(data)
+        return sha256.Sum256(intermediateHash[:])[0]
+}</span>
+
+// byteToMnemonic returns the PGP word list encoding of b when found at index.
+func byteToMnemonic(b byte, index int) string <span class="cov0" title="0">{
+        bb := uint16(b) * 2
+        if index%2 != 0 </span><span class="cov0" title="0">{
+                bb++
+        }</span>
+        <span class="cov0" title="0">return wordList[bb]</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package addrtool
+
+import "github.com/tyler-smith/go-bip32"
+
+// The hierarchy described by BIP0043 is:
+//  m/&lt;purpose&gt;'/*
+// This is further extended by BIP0044 to:
+//  m/44'/&lt;coin type&gt;'/&lt;account&gt;'/&lt;branch&gt;/&lt;address index&gt;
+//
+// The branch is 0 for external addresses and 1 for internal addresses.
+//  m/purpose(44)'/coinType(171)'/account(0)'/change(0)/index(0)
+
+//return compressed pubkey
+func SeedToPubKey(seed []byte, purpose uint32, coinType uint32, account uint32, change uint32, index uint32) ([]byte, error) <span class="cov8" title="1">{
+        masterExtKey, err := bip32.NewMasterKey(seed)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        //m/purpose'
+        <span class="cov8" title="1">purposeExtKey, err := masterExtKey.NewChildKey(bip32.FirstHardenedChild + purpose)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        //m/purpose'/cointype'
+        <span class="cov8" title="1">coinTypeExtKey, err := purposeExtKey.NewChildKey(bip32.FirstHardenedChild + coinType)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        //m/purpose'/cointype'/account'
+        <span class="cov8" title="1">accountExtKey, err := coinTypeExtKey.NewChildKey(bip32.FirstHardenedChild + account)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        //m/purpose'/cointype'/account'/change
+        <span class="cov8" title="1">changeExtKey, err := accountExtKey.NewChildKey(change)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        //m/purpose'/cointype'/account'/change/addrIndex
+        <span class="cov8" title="1">addrIndex0ExtKey, err := changeExtKey.NewChildKey(index)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+        <span class="cov8" title="1">return addrIndex0ExtKey.PublicKey().Key, nil</span>
+}
+
+//return compressed ecc pubkey or children  ecc pubkey compressed from an extended key(support public or private) base58-encoded
+func ExtendKeyB58ToPubkey(extendKeyB58Str string, children ...uint32) ([]byte, error) <span class="cov8" title="1">{
+
+        extKey, err := bip32.B58Deserialize(extendKeyB58Str)
+        if err != nil </span><span class="cov0" title="0">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">for _, child := range children </span><span class="cov8" title="1">{
+                extKey, err = extKey.NewChildKey(child)
+                if err != nil </span><span class="cov0" title="0">{
+                        return nil, err
+                }</span>
+        }
+
+        <span class="cov8" title="1">pubkey := extKey.PublicKey()
+        return pubkey.Key, nil</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

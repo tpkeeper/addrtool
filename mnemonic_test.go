@@ -3,7 +3,6 @@ package addrtool
 import (
 	"bytes"
 	"encoding/hex"
-	"fmt"
 	"strings"
 	"testing"
 )
@@ -43,7 +42,6 @@ func TestGenMnemonicBip39(t *testing.T) {
 
 	for _, test := range tests {
 		mnemonic, err := Bip39GenMnemonic(test.randSize)
-		fmt.Println(len(strings.Split(mnemonic, " ")))
 		if err != nil {
 			t.Errorf("%v: GenMnemonicBip39 err: %v", test.name, err)
 			return

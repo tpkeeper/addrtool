@@ -44,12 +44,10 @@ func SeedToPubKey(seed []byte, purpose uint32, coinType uint32, account uint32, 
 	return addrIndex0ExtKey.PublicKey().Key, nil
 }
 
-//return compressed ecc pubkey or children compressed ecc pubkey from an extended key base58-encoded
-func PubkeyFromExtendKey(extendKeyB58Str string, children ... uint32) ([]byte, error) {
+//return compressed ecc pubkey or children  ecc pubkey compressed from an extended key(support public or private) base58-encoded
+func ExtendKeyB58ToPubkey(extendKeyB58Str string, children ...uint32) ([]byte, error) {
 
 	extKey, err := bip32.B58Deserialize(extendKeyB58Str)
-
-	//node,err:=hdkeychain.NewKeyFromString(extendKeyStr,nwp)
 	if err != nil {
 		return nil, err
 	}
@@ -62,6 +60,5 @@ func PubkeyFromExtendKey(extendKeyB58Str string, children ... uint32) ([]byte, e
 	}
 
 	pubkey := extKey.PublicKey()
-
 	return pubkey.Key, nil
 }
