@@ -139,7 +139,7 @@ var (
 
 func init() {
 	app.Name = "addrtool"
-	app.Usage = "a tool for transfer easily between [mnemonic, seed, pubkey, address]"
+	app.Usage = "a powerful tool that can generate [mnemonic, seed, address] and supports multi coins"
 	app.Copyright = "Copyright 2019-2020 tpkeeper"
 	app.Commands = cli.Commands{
 		&genMnemonicCommand,

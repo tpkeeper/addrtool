@@ -1,21 +1,57 @@
 # addrtool
 
-## Feature
+addrtool is a powerful tool that can generate [mnemonic, seed, address] and supports multi coins
 
-* generate mnemonic
-  * [X] bip39
-  * [ ] decred
+## install
+require go 1.11+
 
-* mnemonic to seed
-  * [X] bip39
-  * [X] decred
-  
-* seed to pubkey
-  * [X] bip32
-  * [X] bip44
-  
-* pubkey to address
-  * [X] btc
-  * [X] decred
-  * [X] hcash
-  * [ ] etherum
+```bash
+git clone https://github.com/tpkeeper/addrtool.git
+cd addrtool
+go install ./cmd...
+```
+
+
+## usage
+
+```bash
+addrtool.exe
+
+NAME:
+   addrtool - a powerful tool that can generate [mnemonic, seed, address] and supports multi coins
+
+USAGE:
+   addrtool.exe [global options] command [command options] [arguments...]
+
+COMMANDS:
+   genmnemonic  generate mnemonic
+   genseed      generate seed from mnemonic
+   genaddr      generate address from seed
+   help, h      Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h  show help (default: false)
+
+COPYRIGHT:
+   Copyright 2019-2020 tpkeeper
+```
+
+**genmnemonic**
+
+```bash
+addrtool.exe genmnemonic --size 15
+elite marine addict act suffer tuition actor call journey venue kitten width print select dynamic
+```
+**genseed**
+
+```bash
+addrtool.exe genseed "elite marine addict act suffer tuition actor call journey venue kitten width print select dynamic"
+dd8d2e80441a1a4440b3edf8febf1b89b78b62e9247924fbc3d11653393c8ebfa124b453f5a25573067ee895e56261b8599d4535649cec580464c77e9d9d7201
+```
+**genaddr**
+
+```bash
+addrtool.exe genaddr --cointype btc --index 1 dd8d2e80441a1a4440b3edf8febf1b89b78b62e9247924fbc3d11653393c8ebfa124b453f5a25573067
+ee895e56261b8599d4535649cec580464c77e9d9d7201
+17gcwctJfyxnAtprzJadFewHSXs51uV6WW
+```
