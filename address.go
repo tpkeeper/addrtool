@@ -9,17 +9,17 @@ import (
 	"github.com/decred/dcrd/dcrutil"
 )
 
-func PubkeyToAddress(key []byte, netId byte) (string) {
+func PubkeyToAddress(key []byte, netId byte) string {
 	hash160Bytes := btcutil.Hash160(key)
 	return base58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
 }
-func DcrPubkeyToAddress(key []byte, netId [2]byte) (string) {
+func DcrPubkeyToAddress(key []byte, netId [2]byte) string {
 	//dcr的hash160与btc的不同
 	hash160Bytes := dcrutil.Hash160(key)
 	return dcrbase58.CheckEncode(hash160Bytes[:ripemd160.Size], netId)
 }
 
-func MultiPubkeyToAddress(netId byte, nRequired int, keys ... []byte) (string, error) {
+func MultiPubkeyToAddress(netId byte, nRequired int, keys ...[]byte) (string, error) {
 	builder := txscript.NewScriptBuilder().AddInt64(int64(nRequired))
 	for _, key := range keys {
 		builder.AddData(key)
@@ -60,5 +60,4 @@ type DcrNetWorkParams struct {
 	PKHSchnorrAddrID [2]byte
 	ScriptHashAddrID [2]byte
 	PrivateKeyID     [2]byte
-
 }

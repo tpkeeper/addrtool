@@ -6,3 +6,4 @@ vendor
 *.diff
 *.sw?
 .idea/
+*.exe

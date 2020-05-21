@@ -14,5 +14,6 @@ require (
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tyler-smith/go-bip32 v0.0.0-20170922074101-2c9cfd177564
 	github.com/tyler-smith/go-bip39 v1.0.2
+	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8
 )
