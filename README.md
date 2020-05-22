@@ -24,9 +24,9 @@ USAGE:
    addrtool.exe [global options] command [command options] [arguments...]
 
 COMMANDS:
-   genmnemonic  generate mnemonic
-   genseed      generate seed from mnemonic
-   genaddr      generate address from seed
+   genmnemonic  generate mnemonic, protocol support: bip39, decred
+   genseed      generate seed from mnemonic, protocol support: bip39, decred
+   genaddr      generate address from seed, coin type support: btc, dcr, hc
    help, h      Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
@@ -34,6 +34,7 @@ GLOBAL OPTIONS:
 
 COPYRIGHT:
    Copyright 2019-2020 tpkeeper
+
 ```
 
 **genmnemonic**
