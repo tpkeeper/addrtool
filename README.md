@@ -24,10 +24,10 @@ USAGE:
    addrtool.exe [global options] command [command options] [arguments...]
 
 COMMANDS:
-   genmnemonic  generate mnemonic, protocol support: bip39, decred
-   genseed      generate seed from mnemonic, protocol support: bip39, decred
-   genaddr      generate address from seed, coin type support: btc, dcr, hc
-   help, h      Shows a list of commands or help for one command
+   genmnemonic, gm  generate mnemonic, protocol support: bip39, decred
+   genseed, gs      generate seed from mnemonic, protocol support: bip39, decred
+   genaddr, ga      generate address from seed, coin type support: btc, dcr, hc
+   help, h          Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h  show help (default: false)
