@@ -1,5 +1,7 @@
 # addrtool
 
+![GitHub](https://img.shields.io/github/license/tpkeeper/addrtool?style=plastic)
+
 addrtool is a powerful tool that can generate [mnemonic, seed, address] and supports multi coins
 
 ## install
