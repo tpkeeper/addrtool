@@ -4,7 +4,7 @@
 
 addrtool is a powerful tool that can generate [mnemonic, seed, address] and supports multi coins
 
-## install
+## Install
 require go 1.11+
 
 ```bash
@@ -14,7 +14,7 @@ go install ./cmd...
 ```
 
 
-## usage
+## Usage
 
 ```bash
 addrtool.exe
@@ -58,3 +58,20 @@ addrtool.exe genaddr --cointype btc --index 1 dd8d2e80441a1a4440b3edf8febf1b89b7
 ee895e56261b8599d4535649cec580464c77e9d9d7201
 17gcwctJfyxnAtprzJadFewHSXs51uV6WW
 ```
+## Trust
+
+dont`t trust, just verify.
+
+## License
+
+addrtool is released under the GPLv3 License.
+
+## Reference
+
+[1] [bip39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+
+[2] [bip32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
+
+[3] [bip44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+
+[4] [bip45](https://github.com/bitcoin/bips/blob/master/bip-0045.mediawiki)

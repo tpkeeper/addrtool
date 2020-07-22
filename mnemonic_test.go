@@ -3,6 +3,8 @@ package addrtool
 import (
 	"bytes"
 	"encoding/hex"
+	"github.com/btcsuite/btcutil/base58"
+	dcrbase58 "github.com/decred/base58"
 	"strings"
 	"testing"
 )
@@ -113,4 +115,12 @@ func TestMnemonicToSeedBip39(t *testing.T) {
 		}
 
 	}
+}
+
+func TestBase58(t *testing.T) {
+	s,_:=hex.DecodeString("02b1ad2bc0a9d189c4c644ac2668d62b2b6147ce")
+
+	t.Log(base58.Encode(s))
+	t.Log(dcrbase58.Encode(s))
+
 }
