@@ -16,4 +16,5 @@ require (
 	github.com/tyler-smith/go-bip39 v1.0.2
 	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/crypto v0.0.0-20190611184440-5c40567a22f8
+	gopkg.in/yaml.v2 v2.2.8
 )
